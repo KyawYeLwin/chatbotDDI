@@ -1,35 +1,33 @@
-name: Deploy to GitHub Pages
+name: Deploy to Render
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger deployment on changes to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-    
+        python-version: '3.x'  # Specify the Python version
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    
-    - name: Deploy
+
+    - name: Deploy to Render
       env:
-        LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
-        LINE_CHANNEL_SECRET: ${{ secrets.LINE_CHANNEL_SECRET }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
       run: |
-        git config --global user.name ${{ secrets.GH_NAME }}
-        git config --global user.email ${{ secrets.GH_EMAIL }}
-        git checkout --orphan gh-pages
-        git add -A
-        git commit -m "Deploy to GitHub Pages"
-        git push -f https://${{ secrets.GITHUB_TOKEN }}@github.com/KyawYeLwin/chatbotDDI.git gh-pages
+        curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json"

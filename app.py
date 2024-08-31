@@ -5,9 +5,9 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 from openai import OpenAI
-from langchain_community.document_loaders import WebBaseLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain.document_loaders import WebBaseLoader, PyMuPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 
 app = Flask(__name__)
@@ -33,20 +33,32 @@ website_urls = [
 ]
 
 # Load and process website data
-loader = WebBaseLoader(web_paths=website_urls)
+loader = WebBaseLoader(website_urls)
 web_docs = loader.load()
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1200, chunk_overlap=200, add_start_index=True
-)
-all_splits = text_splitter.split_documents(web_docs)
+# Load and process PDF files in 'files' directory
+pdf_docs = []
+pdf_dir = 'files'
+for pdf_file in os.listdir(pdf_dir):
+    if pdf_file.endswith('.pdf'):
+        pdf_path = os.path.join(pdf_dir, pdf_file)
+        pdf_loader = PyMuPDFLoader(pdf_path)
+        pdf_docs.extend(pdf_loader.load())
 
+# Combine website and PDF documents
+all_docs = web_docs + pdf_docs
+
+# Text splitting
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1200, chunk_overlap=200)
+all_splits = text_splitter.split_documents(all_docs)
+
+# Create embeddings and vector store
 openai_embed = OpenAIEmbeddings(openai_api_key=openai_apikey)
 convstore = FAISS.from_documents(all_splits, embedding=openai_embed)
 retriever = convstore.as_retriever(search_type="similarity")
 
 def openai_function(user_input, additional_context=None):
-    system_prompt = f"You are a helpful assistant, please answer the questions accurately, if you don't know just simply say you don't have enough info. Be positive and energetic in your reply. CONTEXT : {additional_context}. For additional, Add reference or source in your answer."
+    system_prompt = f"You are a helpful assistant. Please answer the questions accurately. If you don't know, simply say you don't have enough info. Be positive and energetic in your reply. CONTEXT: {additional_context}. For additional, add a reference or source in your answer."
     response = client.chat.completions.create(
         model='gpt-3.5-turbo',
         messages=[

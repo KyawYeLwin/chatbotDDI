@@ -1,8 +1,5 @@
+Flask
+line-bot-sdk
 openai
-langchain_community
-langchain_openai
 langchain
 faiss-cpu
-flask
-line-bot-sdk
-gunicorn
