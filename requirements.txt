@@ -7,3 +7,4 @@ faiss-cpu
 gunicorn
 beautifulsoup4
 PyMuPDF
+tiktoken
