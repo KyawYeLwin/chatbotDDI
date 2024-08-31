@@ -3,3 +3,4 @@ line-bot-sdk
 openai
 langchain
 faiss-cpu
+gunicorn==20.1.0
