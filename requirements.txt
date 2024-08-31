@@ -5,3 +5,5 @@ langchain
 langchain-community
 faiss-cpu
 gunicorn
+beautifulsoup4
+PyMuPDF
