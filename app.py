@@ -60,7 +60,7 @@ retriever = convstore.as_retriever(search_type="similarity")
 def openai_function(user_input, additional_context=None):
     system_prompt = f"You are a helpful assistant. Please answer the questions accurately. If you don't know, simply say you don't have enough info. Be positive and energetic in your reply. CONTEXT: {additional_context}. For additional, add a reference or source in your answer."
     response = client.chat.completions.create(
-        model='gpt-3.5-turbo',
+        model='gpt-4-turbo',  # Change the model here to gpt-4-turbo
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
