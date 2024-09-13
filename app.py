@@ -30,7 +30,29 @@ website_urls = [
     "https://ddi.au.edu/en/program-information/study-plan/",
     "https://ddi.au.edu/en/apply-now-2/how-to-apply/",
     "https://ddi.au.edu/en/tuition-fee-2/",
+    "https://ddi.au.edu/en/contact-for-program-information/",
+    "https://ddi.au.edu/en/contact-for-program-information/contact-to-visit/",
+    "https://ddi.au.edu/en/ddi-online-learning-2/?lang=en",
+    "https://ddi.au.edu/en/category/news-eng/",
+    "https://ddi.au.edu/en/apply-now-2/qualifications-of-applicants/",
+    "https://ddi.au.edu/en/apply-now-2/application-criteria/",
+    "https://ddi.au.edu/en/apply-now-2/required-documents/",
+    "https://ddi.au.edu/en/admission-calendar-eng/",
+    "https://ddi.au.edu/en/portfolio/youthful-issue-competition/",
+    "https://ddi.au.edu/en/portfolio/hackathailand-2023/",
+    "https://ddi.au.edu/en/portfolio/young-gen-hackathon-2022/",
+    "https://ddi.au.edu/en/program-information/facility/",
+    "https://ddi.au.edu/en/program-information/au-spark-2/",
+    "https://ddi.au.edu/en/program-information/psytech-assessment-tool-2/",
+    "https://ddi.au.edu/en/cooperation-network/",
+    "https://ddi.au.edu/en/internship-2/",
+    "https://ddi.au.edu/en/partners/guest-speaker-en/",
+    "https://ddi.au.edu/en/portfolio/ddi-students-shine-at-startup-competitions/",
+    "https://ddi.au.edu/en/program-information/3-years-double-degree-2/",
+    "https://ddi.au.edu/en/program-information/ddi-faculty/",
+    "https://ddi.au.edu/en/program-information/core-learning/",
 ]
+
 
 # Load and process website data
 loader = WebBaseLoader(website_urls)
