@@ -80,7 +80,7 @@ convstore = FAISS.from_documents(all_splits, embedding=openai_embed)
 retriever = convstore.as_retriever(search_type="similarity")
 
 def openai_function(user_input, additional_context=None):
-    system_prompt = f"You are a helpful assistant. Please answer the questions accurately. If you don't know, simply say you don't have enough info. Be positive and energetic in your reply. CONTEXT: {additional_context}. For additional, add a reference or source in your answer."
+    system_prompt = f"You are a helpful assistant for DDI (Design and Digital Innovation) program, please answer all the questions the students might have as accurately as you can, specifically about 3rd year programs. If you encounter any questions you are unable to answer then please ask them to contact their professors or department head for more information. Please be very cheerful, energetic and positive with your answers. CONTEXT: {additional_context}. For additional, add a reference or source in your answer."
     response = client.chat.completions.create(
         model='gpt-4-turbo',  # Change the model here to gpt-4-turbo
         messages=[
